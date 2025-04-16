@@ -10,11 +10,11 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -26,7 +26,7 @@ jobs:
             node_modules
           key: cache-node-modules-${{ hashFiles('**/package-lock.json') }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18.x
           registry-url: https://registry.npmjs.org/
@@ -54,7 +54,7 @@ jobs:
           npx nx run-many --target=build --all --parallel --maxParallel=3
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dist-artifact
           path: ./dist
@@ -62,17 +62,17 @@ jobs:
   dockerize:
     name: Dockerize
     needs: build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         project: ["server", "console", "proxy"]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Download 'dist' folder
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: dist-artifact
           path: ./dist
@@ -115,22 +115,22 @@ jobs:
   # npm_publish:
   #   name: NPM Publish
   #   needs: build
-  #   runs-on: ubuntu-24.04
+  #   runs-on: ubuntu-latest
   #   strategy:
   #     matrix:
   #       library: ["client"]
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v4
   #       with:
   #         fetch-depth: 0
 
   #     - name: Download 'dist' folder
-  #       uses: actions/download-artifact@v2
+  #       uses: actions/download-artifact@v4
   #       with:
   #         name: dist-artifact
   #         path: ./dist
 
-  #     - uses: actions/setup-node@v3
+  #     - uses: actions/setup-node@v4
   #       with:
   #         node-version: 18.x
   #         registry-url: https://registry.npmjs.org/
