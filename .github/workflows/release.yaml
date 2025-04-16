@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       packages: write
     steps:
@@ -62,7 +62,7 @@ jobs:
   dockerize:
     name: Dockerize
     needs: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         project: ["server", "console", "proxy"]
@@ -115,7 +115,7 @@ jobs:
   # npm_publish:
   #   name: NPM Publish
   #   needs: build
-  #   runs-on: ubuntu-20.04
+  #   runs-on: ubuntu-24.04
   #   strategy:
   #     matrix:
   #       library: ["client"]
